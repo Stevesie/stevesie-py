@@ -1,6 +1,8 @@
 import uuid
 import pytest
 
+import requests_mock
+
 from stevesie.worker import Worker
 
 def test_init():
@@ -12,5 +14,7 @@ def test_init():
 def test_hydration():
     worker_id = uuid.uuid4()
     worker = Worker(worker_id)
-    worker.fetch()
+    with requests_mock.mock() as m:
+        m.get(worker.resource_url, text='{}')
+        worker.fetch()
     assert worker.is_hydrated == True
