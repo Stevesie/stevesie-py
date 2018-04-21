@@ -5,7 +5,7 @@ class RemoteResource(ABC):
 
     def __init__(self, id):
         self._id = id
-        self._hydrated = False
+        self._is_hydrated = False
         super(RemoteResource, self).__init__()
 
     @property
@@ -13,8 +13,8 @@ class RemoteResource(ABC):
         return self._id
 
     @property
-    def hydrated(self):
-        return self._hydrated
+    def is_hydrated(self):
+        return self._is_hydrated
 
     @property
     @abstractmethod
