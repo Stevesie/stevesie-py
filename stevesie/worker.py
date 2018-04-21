@@ -3,5 +3,5 @@ from stevesie.remote_resource import RemoteResource
 
 class Worker(RemoteResource):
 
-    def extractions():
-        pass
+    def resource_url(self):
+        return 'workers/{}'.format(self.id)
