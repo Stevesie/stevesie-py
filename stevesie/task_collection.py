@@ -8,6 +8,7 @@ class TaskCollectionTuple(NamedTuple):
     id: str
     name: str
     created_at: datetime
+    childTaskCollections: Sequence['TaskCollection']
 
 TaskCollectionTuple.__new__.__defaults__ = (None,) * len(TaskCollectionTuple._fields)
 

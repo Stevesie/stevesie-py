@@ -42,9 +42,15 @@ class RemoteResource(ABC):
                     
                     m = re.search('\[(.*)\]', sequence_class_string)
                     module_parts = m.group(1).split('.')
-                    module_name = module_parts[1]
-                    class_name = module_parts[2]
 
+                    if len(module_parts) == 1: # referring to self using string type hack
+                        class_name_match = re.search('\(\'(.*)\'\)', module_parts[0])
+                        class_name = class_name_match.group(1)
+                        module_name = inflection.underscore(class_name)
+                    else:
+                        module_name = module_parts[1]
+                        class_name = module_parts[2]
+                    
                     mod = getattr(stevesie, module_name)
                     cls = getattr(mod, class_name)
 
