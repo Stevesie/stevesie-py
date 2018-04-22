@@ -1,29 +1,48 @@
 from abc import ABC, abstractmethod
 
+import inflection
+from datetime import datetime
+
 from stevesie.utils import api
+
+DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class RemoteResource(ABC):
 
     def __init__(self, id):
         self._id = id
-        self._state = None
+        self._is_hydrated = False
         super(RemoteResource, self).__init__()
 
-    def fetch(self):
-        self._state = api.get(self.resource_url)
-        return self.state
+    def hydrate(self, obj=None):
+        if obj is None:
+            api_json = api.get(self.resource_url)
+            obj = api_json['item']
+        
+        hydrate_args = {'id': self.id}
+
+        for field_name in self._fields:
+            field_type = self._field_types[field_name]
+            api_field_name = inflection.camelize(field_name, uppercase_first_letter=False)
+            field_value = obj.get(api_field_name)
+            
+            if field_value is not None:
+                if field_type == datetime:
+                    field_value = datetime.strptime(field_value, DATETIME_FORMAT)
+                elif issubclass(field_type, RemoteResource):
+                    field_value = field_type(field_value.get('id')).hydrate(field_value)
+
+            hydrate_args[field_name] = field_value
+
+        return self._replace(**hydrate_args)
 
     @property
     def id(self):
         return self._id
 
     @property
-    def state(self):
-        return self._state
-
-    @property
     def is_hydrated(self):
-        return self._state != None
+        return self._is_hydrated
 
     @property
     @abstractmethod

@@ -8,6 +8,7 @@ setup(
     author='Stevesie, LLC',
     author_email='steve@stevesie.com',
     install_requires=[
-        'requests>=0.11.1,<3.0'
+        'requests>=0.11.1,<3.0',
+        'inflection>=0.2.0,<1.0'
     ]
 )

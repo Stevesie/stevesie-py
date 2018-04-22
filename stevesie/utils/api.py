@@ -1,5 +1,6 @@
 import os
 import logging
+import json
 
 import requests
 
@@ -8,7 +9,7 @@ BASE_URL = 'https://stevesie.com/api/v1/'
 TOKEN_ENV_KEY = 'STEVESIE__API_TOKEN'
 
 def __token():
-    return os.getenv('TOKEN_ENV_KEY')
+    return os.getenv(TOKEN_ENV_KEY)
 
 def get(url, params=None):
     logging.info('Fetching {}'.format(url))
