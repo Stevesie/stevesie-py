@@ -1,8 +1,13 @@
+import re
+
 from abc import ABC, abstractmethod
+
+from typing import Sequence, GenericMeta
 
 import inflection
 from datetime import datetime
 
+import stevesie
 from stevesie.utils import api
 
 DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -30,7 +35,20 @@ class RemoteResource(ABC):
                 if field_type == datetime:
                     field_value = datetime.strptime(field_value, DATETIME_FORMAT)
                 elif issubclass(field_type, RemoteResource):
-                    field_value = field_type(field_value.get('id')).hydrate(field_value)
+                    field_value = field_type(field_value['id']).hydrate(field_value)
+                elif issubclass(field_type, Sequence) and issubclass(field_type.__class__, GenericMeta):
+                    # TODO - serious debt, can't otherwise figure out the type of a typing.Sequence
+                    sequence_class_string = str(field_type)
+                    
+                    m = re.search('\[(.*)\]', sequence_class_string)
+                    module_parts = m.group(1).split('.')
+                    module_name = module_parts[1]
+                    class_name = module_parts[2]
+
+                    mod = getattr(stevesie, module_name)
+                    cls = getattr(mod, class_name)
+
+                    field_value = [cls(item['id']).hydrate(item) for item in field_value]
 
             hydrate_args[field_name] = field_value
 
