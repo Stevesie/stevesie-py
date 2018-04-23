@@ -14,18 +14,12 @@ DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class RemoteResource(ABC):
 
-    def __init__(self, id):
-        self._id = id
+    def __init__(self, *args, **kwargs):
         self._is_hydrated = False
         super(RemoteResource, self).__init__()
 
-    def hydrate(self, obj=None):
-        if obj is None:
-            api_json = api.get(self.resource_url)
-            obj = api_json['item']
-        
-        hydrate_args = {'id': self.id}
-
+    def hydrate(self, obj):
+        hydrate_args = {}
         for field_name in self._fields:
             field_type = self._field_types[field_name]
             api_field_name = inflection.camelize(field_name, uppercase_first_letter=False)
@@ -54,15 +48,21 @@ class RemoteResource(ABC):
                     mod = getattr(stevesie, module_name)
                     cls = getattr(mod, class_name)
 
-                    field_value = [cls(item['id']).hydrate(item) for item in field_value]
+                    field_value = [cls().hydrate(item) for item in field_value]
 
             hydrate_args[field_name] = field_value
 
-        return self._replace(**hydrate_args)
+        hydrated = self._replace(**hydrate_args)
+        hydrated._is_hydrated = True
+        return hydrated
 
-    @property
-    def id(self):
-        return self._id
+    def fetch(self):
+        api_json = api.get(self.resource_url)
+        obj = self.parse_api_response(api_json)
+        return self.hydrate(obj)
+
+    def parse_api_response(self, api_json):
+        return api_json['item']
 
     @property
     def is_hydrated(self):
