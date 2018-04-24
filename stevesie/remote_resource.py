@@ -29,7 +29,7 @@ class RemoteResource(ABC):
                 if field_type == datetime:
                     field_value = datetime.strptime(field_value, DATETIME_FORMAT)
                 elif issubclass(field_type, RemoteResource):
-                    field_value = field_type(field_value['id']).hydrate(field_value)
+                    field_value = field_type().hydrate(field_value)
                 elif issubclass(field_type, Sequence) and issubclass(field_type.__class__, GenericMeta):
                     # TODO - serious debt, can't otherwise figure out the type of a typing.Sequence
                     sequence_class_string = str(field_type)
@@ -63,6 +63,10 @@ class RemoteResource(ABC):
 
     def parse_api_response(self, api_json):
         return api_json['item']
+
+    @property
+    def resource_params(self):
+        return {}
 
     @property
     def is_hydrated(self):

@@ -5,7 +5,8 @@ import json
 import requests
 
 
-BASE_URL = 'https://stevesie.com/api/v1/'
+#BASE_URL = 'https://stevesie.com/api/v1/'
+BASE_URL = 'http://localhost:9000/api/v1/'
 TOKEN_ENV_KEY = 'STEVESIE__API_TOKEN'
 
 def __token():
