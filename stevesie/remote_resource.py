@@ -1,11 +1,12 @@
 import re
+import json
 
 from abc import ABC, abstractmethod
 
 from typing import Sequence, GenericMeta
 
 import inflection
-from datetime import datetime
+from datetime import datetime, date
 
 import stevesie
 from stevesie.utils import api
@@ -60,6 +61,25 @@ class RemoteResource(ABC):
         api_json = api.get(self.resource_url)
         obj = self.parse_api_response(api_json)
         return self.hydrate(obj)
+
+    def to_json(self):
+        def inner_json(obj):
+            if isinstance(obj, list):
+                return [inner_json(o) for o in obj]
+            if isinstance(obj, RemoteResource):
+                return obj._asdict()
+            return obj
+
+        return {key: inner_json(value) for key, value in self._asdict().items()}
+
+    def save_to_local(self, local_filename):
+
+        def serialize(obj):
+            if isinstance(obj, (datetime, date)):
+                return obj.isoformat()
+
+        with open(local_filename, 'w') as f:
+            json.dump(self.to_json(), f, default=serialize)
 
     def parse_api_response(self, api_json):
         return api_json['item']
