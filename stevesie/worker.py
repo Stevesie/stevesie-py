@@ -27,7 +27,7 @@ class Worker(WorkerFields, RemoteResource):
 
     def fetch_results(self, task_collection_id=None):
         self._worker_collection_results = WorkerCollectionResults({'worker_id': self.id, 'task_collection_id': task_collection_id}).fetch()
-        return _worker_collection_results
+        return self._worker_collection_results
 
     @property
     def resource_path(self):
