@@ -4,6 +4,7 @@ from datetime import datetime
 
 from stevesie.remote_resource import RemoteResource
 from stevesie.task import Task
+from stevesie.workflow import Workflow
 from stevesie.worker_collection_results import WorkerCollectionResults
 
 class WorkerFields(NamedTuple):
@@ -12,7 +13,7 @@ class WorkerFields(NamedTuple):
     created_at: datetime
     # user: RemoteResource
     task: Task
-    # workflow: RemoteResource
+    workflow: Workflow
     # vault_entries: RemoteResource
     # work_schedules: RemoteResource
     # work_extractions: RemoteResource
