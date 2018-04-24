@@ -13,7 +13,8 @@ def __token():
     return os.getenv(TOKEN_ENV_KEY)
 
 def get(url, params=None):
-    logging.info('Fetching {}'.format(url))
+    logging.info('Fetching {} {}'.format(url, params or ''))
+    print('Fetching {} {}'.format(url, params or ''))
     response = requests.get(url,
         verify=False, # TODO - remove! seemingly related to openSSL shipped in macOS
         headers={'Token': __token()},

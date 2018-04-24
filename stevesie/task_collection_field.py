@@ -6,9 +6,9 @@ from stevesie.remote_resource import RemoteResource
 
 class TaskCollectionFieldTuple(NamedTuple):
     id: str
-    fieldName: str
-    fieldType: str
-    isPrimaryKey: bool
+    field_name: str
+    field_type: str
+    is_primary_key: bool
     created_at: datetime
 
 TaskCollectionFieldTuple.__new__.__defaults__ = (None,) * len(TaskCollectionFieldTuple._fields)
