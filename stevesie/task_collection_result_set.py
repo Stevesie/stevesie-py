@@ -15,6 +15,10 @@ TaskCollectionResultSetTuple.__new__.__defaults__ = (None,) * len(TaskCollection
 class TaskCollectionResultSet(TaskCollectionResultSetTuple, RemoteResourceSequence):
 
     @property
+    def results(self):
+        return [o.object for o in self.task_collection_results]
+
+    @property
     def collection_field(self):
         return 'task_collection_results'
 
