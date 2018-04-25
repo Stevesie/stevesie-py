@@ -24,7 +24,7 @@ class RemoteResource(ABC):
         for field_name in self._fields:
             field_type = self._field_types[field_name]
             api_field_name = inflection.camelize(field_name, uppercase_first_letter=False)
-            field_value = obj.get(api_field_name)
+            field_value = obj.get(api_field_name, obj.get(field_name))
             
             if field_value is not None:
                 if field_type == datetime:
@@ -79,14 +79,19 @@ class RemoteResource(ABC):
         else:
             return {key: inner_json(value) for key, value in obj._asdict().items()}
 
-    def save_to_local(self, local_filename):
+    def save_to_file(self, local_filename):
 
         def serialize(obj):
             if isinstance(obj, (datetime, date)):
-                return obj.isoformat()
+                return obj.strftime(DATETIME_FORMAT)
 
         with open(local_filename, 'w') as f:
             json.dump(self.to_json(), f, default=serialize)
+
+    def load_from_file(self, local_filename):
+        with open(local_filename) as f:
+            obj = json.load(f)
+        return self.hydrate(obj, fetch_remote=False)
 
     def parse_api_response(self, api_json):
         return api_json['item']

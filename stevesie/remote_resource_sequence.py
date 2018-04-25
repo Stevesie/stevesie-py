@@ -27,16 +27,16 @@ class RemoteResourceSequence(RemoteResource):
         initial_hydration = self.hydrate(obj)
         return initial_hydration
 
-    def hydrate(self, obj):
+    def hydrate(self, obj, fetch_remote=True):
         if self.collection_type:
             cls = self.collection_type
-            self._items = [cls().hydrate(o) for o in obj]
+            self._items = [cls().hydrate(o, fetch_remote=fetch_remote) for o in obj]
             return self
         else:
             initial_hydration = super(RemoteResourceSequence, self).hydrate(obj)
 
             offset = 0
-            while self.collection_field and len(getattr(initial_hydration, self.collection_field)) < initial_hydration.total:
+            while fetch_remote and self.collection_field and len(getattr(initial_hydration, self.collection_field)) < initial_hydration.total:
                 offset = offset + 10
 
                 params = initial_hydration.resource_params

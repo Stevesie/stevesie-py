@@ -26,7 +26,7 @@ def test_hydration(worker_json):
     assert worker.name == 'My custom worker!'
 
     with tempfile.NamedTemporaryFile() as tf:
-        worker.save_to_local(tf.name)
+        worker.save_to_file(tf.name)
         loaded_json = json.load(tf)
         assert loaded_json['name'] == 'My custom worker!'
         assert loaded_json['workflow']['name'] == 'Newsfeed'
