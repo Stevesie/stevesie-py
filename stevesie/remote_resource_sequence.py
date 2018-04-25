@@ -10,6 +10,10 @@ class RemoteResourceSequence(RemoteResource):
         super(RemoteResourceSequence, self).__init__(*args, **kwargs)
 
     @property
+    def items(self):
+        return self._items
+
+    @property
     def collection_type(self):
         return None
 
@@ -27,7 +31,7 @@ class RemoteResourceSequence(RemoteResource):
         if self.collection_type:
             cls = self.collection_type
             self._items = [cls().hydrate(o) for o in obj]
-            return self._items
+            return self
         else:
             initial_hydration = super(RemoteResourceSequence, self).hydrate(obj)
 

@@ -73,7 +73,11 @@ class RemoteResource(ABC):
                 return self.to_json(inner_obj)
             return inner_obj
 
-        return {key: inner_json(value) for key, value in obj._asdict().items()}
+        if hasattr(obj, 'collection_type') and obj.collection_type is not None:
+            # little hack for implicit remote resource collection
+            return [inner_json(value) for value in obj.items]
+        else:
+            return {key: inner_json(value) for key, value in obj._asdict().items()}
 
     def save_to_local(self, local_filename):
 
