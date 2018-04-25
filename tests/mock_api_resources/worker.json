@@ -1,0 +1,606 @@
+{
+  "item": {
+    "id": "f961a8f5-8923-451d-993e-d9316b624822",
+    "userId": "7601f0ab-6961-4d3c-8cfa-1eb4d39a1fc7",
+    "workflowId": "680e580a-6c0f-4325-b2a0-4bd610078798",
+    "createdAt": "2017-12-28 12:42:57",
+    "updatedAt": "2018-03-21 00:49:57",
+    "workflow": {
+      "id": "680e580a-6c0f-4325-b2a0-4bd610078798",
+      "name": "Newsfeed",
+      "description": "Access raw data.",
+      "createdAt": "2017-12-03 12:46:27",
+      "updatedAt": "2018-04-19 01:34:23",
+      "slug": "data-newsfeed",
+      "isPublic": true,
+      "workflowTasks": [
+        {
+          "id": "83ca4ba0-73a6-49e9-99c8-71a0097fccd8",
+          "workflowId": "680e580a-6c0f-4325-b2a0-4bd610078798",
+          "createdAt": "2017-12-03 12:46:27",
+          "updatedAt": "2017-12-03 12:46:27",
+          "task": {
+            "id": "3d47b479-bcd5-468d-8bad-f079cd3f820e",
+            "method": "POST",
+            "scheme": "https",
+            "host": "auth.test.com",
+            "port": 443,
+            "path": "/v1/auth",
+            "body": "username={{email}}&password={{password}}&grant_type=password",
+            "name": "Log In",
+            "slug": "login",
+            "description": "Log in with your email address and password.",
+            "createdAt": "2017-11-27 04:22:52",
+            "updatedAt": "2018-04-15 21:51:45",
+            "isPublic": true,
+            "app": {
+              "id": "e43a024d-9e16-41ea-8d16-b8b0e8d88464",
+              "name": "Nextdoor",
+              "description": "Access your account programmatically.",
+              "website": "https://test.com/",
+              "slug": "test",
+              "createdAt": "2016-06-30 02:08:06",
+              "updatedAt": "2018-04-21 13:13:09",
+              "isPublic": true,
+              "iconUrl": "/assets/media/test.png"
+            },
+            "platform": {
+              "id": "08560fdf-fd8a-4fa5-8eb3-361af615b146",
+              "name": "iPhone",
+              "createdAt": "2016-05-17 02:05:49",
+              "updatedAt": "2016-06-03 01:24:18"
+            },
+            "taskDependencies": [
+              {
+                "id": "4a1ef39c-f5fe-4350-8d64-ebefb9498f86",
+                "taskId": "3d47b479-bcd5-468d-8bad-f079cd3f820e",
+                "variableName": "email",
+                "name": "email",
+                "description": "email",
+                "sampleValue": "email",
+                "createdAt": "2017-11-27 04:22:52",
+                "updatedAt": "2017-11-27 04:22:52",
+                "isSecure": false,
+                "isIntercept": true,
+                "isSampleDefault": false
+              },
+              {
+                "id": "bb751dc7-df0f-4d74-a0bf-2528990490ff",
+                "taskId": "3d47b479-bcd5-468d-8bad-f079cd3f820e",
+                "variableName": "password",
+                "name": "password",
+                "description": "password",
+                "sampleValue": "password",
+                "createdAt": "2017-11-27 04:22:52",
+                "updatedAt": "2017-11-27 04:22:52",
+                "isSecure": true,
+                "isIntercept": true,
+                "isSampleDefault": false
+              }
+            ],
+            "taskHeaders": [
+              {
+                "id": "886459b1-3b51-4a68-b905-35f22ef6be46",
+                "taskId": "3d47b479-bcd5-468d-8bad-f079cd3f820e",
+                "headerKey": "Accept-Encoding",
+                "headerValue": "gzip, deflate",
+                "createdAt": "2017-11-27 04:22:52",
+                "updatedAt": "2017-11-27 04:22:52"
+              },
+              {
+                "id": "bbe1f87c-8baf-4a08-a2f6-8cb9f71260fa",
+                "taskId": "3d47b479-bcd5-468d-8bad-f079cd3f820e",
+                "headerKey": "User-Agent",
+                "headerValue": "Nextdoor/3.00 (iPod touch; iOS 10.2; v1; 20170324161910; production build)",
+                "createdAt": "2017-11-27 04:22:52",
+                "updatedAt": "2017-11-27 04:22:52"
+              }
+            ],
+            "taskQueryParams": [],
+            "taskCollections": [
+              {
+                "id": "52c3de1e-df17-491a-863e-dd588dc1de4a",
+                "taskId": "3d47b479-bcd5-468d-8bad-f079cd3f820e",
+                "collectionName": "access_token",
+                "path": "./",
+                "createdAt": "2017-11-27 04:26:47",
+                "updatedAt": "2018-04-16 23:53:40",
+                "isFeatured": true,
+                "taskCollectionFields": [
+                  {
+                    "id": "6cd423d2-e045-4afe-8261-0ba920eb1a5f",
+                    "taskCollectionId": "52c3de1e-df17-491a-863e-dd588dc1de4a",
+                    "fieldName": "id_token",
+                    "fieldType": "string",
+                    "isPrimaryKey": false,
+                    "createdAt": "2017-11-27 04:26:47",
+                    "updatedAt": "2018-02-11 02:54:10"
+                  }
+                ],
+                "childTaskCollections": []
+              }
+            ]
+          }
+        },
+        {
+          "id": "8f2ae7fd-0cd2-4d7b-b6bd-6a0577b9431a",
+          "workflowId": "680e580a-6c0f-4325-b2a0-4bd610078798",
+          "taskId": "e1b13dc4-1365-41e9-96e0-dd1c3508113c",
+          "createdAt": "2017-12-03 12:46:27",
+          "updatedAt": "2017-12-03 12:46:27",
+          "task": {
+            "id": "e1b13dc4-1365-41e9-96e0-dd1c3508113c",
+            "method": "GET",
+            "scheme": "https",
+            "host": "api.test.com",
+            "port": 443,
+            "path": "/mobile/v1/feeds/main",
+            "body": "",
+            "name": "Home Feed",
+            "slug": "home-feed",
+            "description": "Fetch home feed content.",
+            "createdAt": "2016-06-30 02:08:06",
+            "updatedAt": "2018-04-15 21:51:45",
+            "isPublic": true,
+            "app": {
+              "id": "e43a024d-9e16-41ea-8d16-b8b0e8d88464",
+              "name": "Test",
+              "description": "Access your account programmatically.",
+              "website": "https://test.com/",
+              "slug": "test",
+              "createdAt": "2016-06-30 02:08:06",
+              "updatedAt": "2018-04-21 13:13:09",
+              "isPublic": true,
+              "iconUrl": "/assets/media/test.png"
+            },
+            "platform": {
+              "id": "08560fdf-fd8a-4fa5-8eb3-361af615b146",
+              "name": "iPhone",
+              "createdAt": "2016-05-17 02:05:49",
+              "updatedAt": "2016-06-03 01:24:18"
+            },
+            "taskDependencies": [
+              {
+                "id": "af2293a0-66c2-4e97-82fe-6f9594dd0b01",
+                "taskId": "e1b13dc4-1365-41e9-96e0-dd1c3508113c",
+                "variableName": "id_token",
+                "name": "id_token",
+                "description": "id_token",
+                "sampleValue": "",
+                "createdAt": "2016-09-29 00:10:34",
+                "updatedAt": "2016-09-29 00:10:34",
+                "isSecure": true,
+                "isIntercept": true,
+                "isSampleDefault": false
+              }
+            ],
+            "taskHeaders": [
+              {
+                "id": "d4692a66-85a4-4800-b926-7bc6389a80bb",
+                "taskId": "e1b13dc4-1365-41e9-96e0-dd1c3508113c",
+                "headerKey": "Accept-Encoding",
+                "headerValue": "gzip, deflate",
+                "createdAt": "2016-06-30 02:08:06",
+                "updatedAt": "2016-09-29 00:10:34"
+              },
+              {
+                "id": "56472de4-6eed-4894-8765-05fc8162a4fc",
+                "taskId": "e1b13dc4-1365-41e9-96e0-dd1c3508113c",
+                "headerKey": "User-Agent",
+                "headerValue": "Nextdoor/2.48 (iPhone; iPhone OS 9.3.2; v1; 20160624151511; production build)",
+                "createdAt": "2016-06-30 02:08:06",
+                "updatedAt": "2016-09-29 00:10:34"
+              },
+              {
+                "id": "bb78e8c8-63b6-49b6-ab03-e78443b88497",
+                "taskId": "e1b13dc4-1365-41e9-96e0-dd1c3508113c",
+                "headerKey": "X-ID-Token",
+                "headerValue": "{{id_token}}",
+                "createdAt": "2016-06-30 02:08:06",
+                "updatedAt": "2016-09-29 00:10:34"
+              }
+            ],
+            "taskQueryParams": [
+              {
+                "id": "76f4cfc5-952b-4375-88e5-fccdd85d989d",
+                "taskId": "e1b13dc4-1365-41e9-96e0-dd1c3508113c",
+                "queryParamKey": "want_feature_config",
+                "queryParamValue": "1",
+                "createdAt": "2016-06-30 02:08:06",
+                "updatedAt": "2016-09-29 00:10:34"
+              },
+              {
+                "id": "4f5e1ae1-22e6-47f2-b304-0721efaa04ec",
+                "taskId": "e1b13dc4-1365-41e9-96e0-dd1c3508113c",
+                "queryParamKey": "want_user_data",
+                "queryParamValue": "1",
+                "createdAt": "2016-06-30 02:08:06",
+                "updatedAt": "2016-09-29 00:10:34"
+              }
+            ],
+            "taskCollections": [
+              {
+                "id": "e5d9d62e-9fe6-432d-974f-33ecd5d4b03f",
+                "taskId": "e1b13dc4-1365-41e9-96e0-dd1c3508113c",
+                "collectionName": "Stories",
+                "path": "/stories//",
+                "createdAt": "2017-04-01 17:09:40",
+                "updatedAt": "2018-02-10 20:45:21",
+                "taskCollectionFields": [
+                  {
+                    "id": "cf2dc0ff-bd8d-4106-9ebd-098213efd9b2",
+                    "taskCollectionId": "e5d9d62e-9fe6-432d-974f-33ecd5d4b03f",
+                    "fieldName": "creation_date",
+                    "fieldType": "epoch",
+                    "sampleValue": "1491000920",
+                    "isPrimaryKey": false,
+                    "createdAt": "2017-04-01 17:10:45",
+                    "updatedAt": "2017-04-01 17:10:45"
+                  },
+                  {
+                    "id": "33edf9e6-1464-496a-af6a-0ce91fb0f368",
+                    "taskCollectionId": "e5d9d62e-9fe6-432d-974f-33ecd5d4b03f",
+                    "fieldName": "id",
+                    "fieldType": "number",
+                    "sampleValue": "4677204932",
+                    "isPrimaryKey": true,
+                    "createdAt": "2017-04-01 17:11:54",
+                    "updatedAt": "2017-04-01 17:11:54"
+                  }
+                ],
+                "childTaskCollections": [
+                  {
+                    "id": "075e1114-02f0-46ac-bd59-9720cd7cec86",
+                    "taskId": "e1b13dc4-1365-41e9-96e0-dd1c3508113c",
+                    "parentId": "e5d9d62e-9fe6-432d-974f-33ecd5d4b03f",
+                    "collectionName": "Comments",
+                    "path": "/stories//comments//",
+                    "createdAt": "2017-04-01 17:16:03",
+                    "updatedAt": "2018-02-10 20:45:21",
+                    "taskCollectionFields": [
+                      {
+                        "id": "89b80a85-04b7-4b86-aaab-be970ca93820",
+                        "taskCollectionId": "075e1114-02f0-46ac-bd59-9720cd7cec86",
+                        "fieldName": "body",
+                        "fieldType": "text",
+                        "sampleValue": "This is the best comment ever!",
+                        "isPrimaryKey": false,
+                        "createdAt": "2017-04-01 17:16:40",
+                        "updatedAt": "2017-04-01 17:16:40"
+                      },
+                      {
+                        "id": "1f5e3ada-9212-4cb9-889f-7fdfd6ae8ac1",
+                        "taskCollectionId": "075e1114-02f0-46ac-bd59-9720cd7cec86",
+                        "fieldName": "id",
+                        "fieldType": "number",
+                        "sampleValue": "92366080",
+                        "isPrimaryKey": true,
+                        "createdAt": "2017-04-01 17:18:37",
+                        "updatedAt": "2017-04-01 17:18:37"
+                      }
+                    ],
+                    "childTaskCollections": [
+                      {
+                        "id": "58e626f7-4e95-4e96-a067-d19c06eb3306",
+                        "taskId": "e1b13dc4-1365-41e9-96e0-dd1c3508113c",
+                        "parentId": "075e1114-02f0-46ac-bd59-9720cd7cec86",
+                        "collectionName": "Author",
+                        "path": "/stories//comments//by_line",
+                        "createdAt": "2018-03-21 01:26:50",
+                        "updatedAt": "2018-03-21 01:26:50",
+                        "taskCollectionFields": [
+                          {
+                            "id": "b825d14e-3645-4f97-87d1-98fcee69e4f6",
+                            "taskCollectionId": "58e626f7-4e95-4e96-a067-d19c06eb3306",
+                            "fieldName": "name",
+                            "fieldType": "string",
+                            "isPrimaryKey": false,
+                            "createdAt": "2018-03-21 01:29:22",
+                            "updatedAt": "2018-03-21 01:29:22"
+                          },
+                          {
+                            "id": "8f8f9da2-0af4-461a-b604-476f7c6f3758",
+                            "taskCollectionId": "58e626f7-4e95-4e96-a067-d19c06eb3306",
+                            "fieldName": "photo_url",
+                            "fieldType": "image",
+                            "isPrimaryKey": false,
+                            "createdAt": "2018-03-21 01:29:39",
+                            "updatedAt": "2018-03-21 01:29:39"
+                          },
+                          {
+                            "id": "d5f8bfea-72f2-4edf-9653-ef244529af07",
+                            "taskCollectionId": "58e626f7-4e95-4e96-a067-d19c06eb3306",
+                            "fieldName": "../id",
+                            "fieldType": "number",
+                            "isPrimaryKey": true,
+                            "createdAt": "2018-03-21 01:28:51",
+                            "updatedAt": "2018-03-21 01:34:26"
+                          }
+                        ],
+                        "childTaskCollections": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "workflowTaskDependencies": [
+        {
+          "id": "bbd5b079-929a-4718-9088-ddddec4b322b",
+          "workflowId": "680e580a-6c0f-4325-b2a0-4bd610078798",
+          "taskDependencyId": "bb751dc7-df0f-4d74-a0bf-2528990490ff",
+          "createdAt": "2017-12-03 12:46:27",
+          "updatedAt": "2017-12-03 12:46:27",
+          "workflowParameter": {
+            "id": "5a8eb55e-fcd4-4f47-8631-639073d582ce",
+            "workflowId": "680e580a-6c0f-4325-b2a0-4bd610078798",
+            "proxyFillTaskDependencyId": "bb751dc7-df0f-4d74-a0bf-2528990490ff",
+            "fieldType": "string",
+            "name": "Password",
+            "description": "Password for your account - keep this encrypted",
+            "createdAt": "2017-12-03 12:46:27",
+            "updatedAt": "2018-03-21 01:03:46",
+            "isSecure": true,
+            "isRequired": true,
+            "isIntercept": false,
+            "isSampleDefault": false
+          },
+          "workflowParameterId": "5a8eb55e-fcd4-4f47-8631-639073d582ce"
+        },
+        {
+          "id": "14ec2f2f-6a34-40fc-874e-45682bf8041a",
+          "workflowId": "680e580a-6c0f-4325-b2a0-4bd610078798",
+          "taskDependencyId": "4a1ef39c-f5fe-4350-8d64-ebefb9498f86",
+          "createdAt": "2017-12-03 12:46:27",
+          "updatedAt": "2017-12-03 12:46:27",
+          "workflowParameter": {
+            "id": "0155f71c-a833-435f-837d-d1e66c6a2548",
+            "workflowId": "680e580a-6c0f-4325-b2a0-4bd610078798",
+            "proxyFillTaskDependencyId": "4a1ef39c-f5fe-4350-8d64-ebefb9498f86",
+            "fieldType": "string",
+            "name": "Email",
+            "description": "Email address to log in to your account",
+            "createdAt": "2017-12-03 12:46:27",
+            "updatedAt": "2018-03-21 01:03:40",
+            "isSecure": false,
+            "isRequired": true,
+            "isIntercept": false,
+            "isSampleDefault": false
+          },
+          "workflowParameterId": "0155f71c-a833-435f-837d-d1e66c6a2548"
+        },
+        {
+          "id": "bde1dee6-881c-435c-8e08-4a1311c52ecc",
+          "workflowId": "680e580a-6c0f-4325-b2a0-4bd610078798",
+          "taskDependencyId": "af2293a0-66c2-4e97-82fe-6f9594dd0b01",
+          "createdAt": "2017-12-03 12:46:27",
+          "updatedAt": "2017-12-03 12:46:27",
+          "taskCollectionField": {
+            "id": "6cd423d2-e045-4afe-8261-0ba920eb1a5f",
+            "taskCollectionId": "52c3de1e-df17-491a-863e-dd588dc1de4a",
+            "fieldName": "id_token",
+            "fieldType": "string",
+            "isPrimaryKey": false,
+            "createdAt": "2017-11-27 04:26:47",
+            "updatedAt": "2018-02-11 02:54:10"
+          },
+          "taskCollectionFieldId": "6cd423d2-e045-4afe-8261-0ba920eb1a5f"
+        }
+      ],
+      "workflowParameters": [
+        {
+          "id": "0155f71c-a833-435f-837d-d1e66c6a2548",
+          "workflowId": "680e580a-6c0f-4325-b2a0-4bd610078798",
+          "proxyFillTaskDependencyId": "4a1ef39c-f5fe-4350-8d64-ebefb9498f86",
+          "fieldType": "string",
+          "name": "Email",
+          "description": "Email address to log in to your account",
+          "createdAt": "2017-12-03 12:46:27",
+          "updatedAt": "2018-03-21 01:03:40",
+          "isSecure": false,
+          "isRequired": true,
+          "isIntercept": false,
+          "isSampleDefault": false
+        },
+        {
+          "id": "5a8eb55e-fcd4-4f47-8631-639073d582ce",
+          "workflowId": "680e580a-6c0f-4325-b2a0-4bd610078798",
+          "proxyFillTaskDependencyId": "bb751dc7-df0f-4d74-a0bf-2528990490ff",
+          "fieldType": "string",
+          "name": "Nextdoor Password",
+          "description": "Password for your account - keep this encrypted",
+          "createdAt": "2017-12-03 12:46:27",
+          "updatedAt": "2018-03-21 01:03:46",
+          "isSecure": true,
+          "isRequired": true,
+          "isIntercept": false,
+          "isSampleDefault": false
+        }
+      ],
+      "workflowMaintainers": [
+        {
+          "id": "c911761b-56f2-4f38-a773-c7a38d926be8",
+          "workflowId": "680e580a-6c0f-4325-b2a0-4bd610078798",
+          "userId": "7601f0ab-6961-4d3c-8cfa-1eb4d39a1fc7",
+          "isAdmin": true,
+          "createdAt": "2018-04-18 12:36:58",
+          "updatedAt": "2018-04-18 12:36:58",
+          "username": "steve"
+        }
+      ]
+    },
+    "vaultEntries": [
+      {
+        "id": "e6c5011c-eed5-4340-93b3-a4aa910179f2",
+        "userWorkflowId": "f961a8f5-8923-451d-993e-d9316b624822",
+        "workflowParameterId": "0155f71c-a833-435f-837d-d1e66c6a2548",
+        "userVaultEntryId": "b488642b-c693-427c-a634-3665abc47030",
+        "createdAt": "2018-03-21 00:47:27",
+        "updatedAt": "2018-03-21 00:47:27",
+        "userVaultEntry": {
+          "id": "b488642b-c693-427c-a634-3665abc47030",
+          "userId": "7601f0ab-6961-4d3c-8cfa-1eb4d39a1fc7",
+          "entryName": "email-f961a8f5-8923-451d-993e-d9316b624822-1514464999349",
+          "entryValue": "XXX",
+          "secureNonce": "XXX",
+          "createdAt": "2017-12-28 12:43:19",
+          "updatedAt": "2018-04-18 23:06:05"
+        }
+      },
+      {
+        "id": "d3661ae9-31f6-4e57-85d4-a84d3061d364",
+        "userWorkflowId": "f961a8f5-8923-451d-993e-d9316b624822",
+        "workflowParameterId": "5a8eb55e-fcd4-4f47-8631-639073d582ce",
+        "userVaultEntryId": "09b5aeb6-b5c0-49a9-b3ab-e931d8a53939",
+        "createdAt": "2018-03-21 00:47:35",
+        "updatedAt": "2018-03-21 00:47:35",
+        "userVaultEntry": {
+          "id": "09b5aeb6-b5c0-49a9-b3ab-e931d8a53939",
+          "userId": "7601f0ab-6961-4d3c-8cfa-1eb4d39a1fc7",
+          "entryName": "password-f961a8f5-8923-451d-993e-d9316b624822-1514465040537",
+          "entryValue": "XXX",
+          "secureNonce": "XXX",
+          "createdAt": "2017-12-28 12:44:01",
+          "updatedAt": "2018-04-18 23:06:05"
+        }
+      }
+    ],
+    "workSchedules": [],
+    "workExtractions": [
+      {
+        "id": "121e2410-7aac-4735-9c51-e6754a8c78fd",
+        "userWorkflowId": "f961a8f5-8923-451d-993e-d9316b624822",
+        "taskCollectionFieldId": "cf2dc0ff-bd8d-4106-9ebd-098213efd9b2",
+        "createdAt": "2017-12-28 12:45:53",
+        "updatedAt": "2017-12-28 12:45:53",
+        "taskCollectionField": {
+          "id": "cf2dc0ff-bd8d-4106-9ebd-098213efd9b2",
+          "taskCollectionId": "e5d9d62e-9fe6-432d-974f-33ecd5d4b03f",
+          "fieldName": "creation_date",
+          "fieldType": "epoch",
+          "sampleValue": "1491000920",
+          "isPrimaryKey": false,
+          "isRequired": false,
+          "isDefaultExtraction": true,
+          "createdAt": "2017-04-01 17:10:45",
+          "updatedAt": "2017-04-01 17:10:45"
+        }
+      },
+      {
+        "id": "526a2523-528d-42b5-844b-30709bdaa1b9",
+        "userWorkflowId": "f961a8f5-8923-451d-993e-d9316b624822",
+        "taskCollectionFieldId": "33edf9e6-1464-496a-af6a-0ce91fb0f368",
+        "createdAt": "2017-12-28 12:45:53",
+        "updatedAt": "2017-12-28 12:45:53",
+        "taskCollectionField": {
+          "id": "33edf9e6-1464-496a-af6a-0ce91fb0f368",
+          "taskCollectionId": "e5d9d62e-9fe6-432d-974f-33ecd5d4b03f",
+          "fieldName": "id",
+          "fieldType": "number",
+          "sampleValue": "4677204932",
+          "isPrimaryKey": true,
+          "isRequired": true,
+          "isDefaultExtraction": true,
+          "createdAt": "2017-04-01 17:11:54",
+          "updatedAt": "2017-04-01 17:11:54"
+        }
+      },
+      {
+        "id": "297086c9-d7d4-4fb8-b1d0-018691838f92",
+        "userWorkflowId": "f961a8f5-8923-451d-993e-d9316b624822",
+        "taskCollectionFieldId": "89b80a85-04b7-4b86-aaab-be970ca93820",
+        "createdAt": "2017-12-28 12:45:53",
+        "updatedAt": "2017-12-28 12:45:53",
+        "taskCollectionField": {
+          "id": "89b80a85-04b7-4b86-aaab-be970ca93820",
+          "taskCollectionId": "075e1114-02f0-46ac-bd59-9720cd7cec86",
+          "fieldName": "body",
+          "fieldType": "text",
+          "sampleValue": "This is the best comment ever!",
+          "isPrimaryKey": false,
+          "isRequired": false,
+          "isDefaultExtraction": true,
+          "createdAt": "2017-04-01 17:16:40",
+          "updatedAt": "2017-04-01 17:16:40"
+        }
+      },
+      {
+        "id": "051bbe50-7e55-48a2-ac65-6496442a93ea",
+        "userWorkflowId": "f961a8f5-8923-451d-993e-d9316b624822",
+        "taskCollectionFieldId": "1f5e3ada-9212-4cb9-889f-7fdfd6ae8ac1",
+        "createdAt": "2017-12-28 12:45:53",
+        "updatedAt": "2017-12-28 12:45:53",
+        "taskCollectionField": {
+          "id": "1f5e3ada-9212-4cb9-889f-7fdfd6ae8ac1",
+          "taskCollectionId": "075e1114-02f0-46ac-bd59-9720cd7cec86",
+          "fieldName": "id",
+          "fieldType": "number",
+          "sampleValue": "92366080",
+          "isPrimaryKey": true,
+          "isRequired": true,
+          "isDefaultExtraction": true,
+          "createdAt": "2017-04-01 17:18:37",
+          "updatedAt": "2017-04-01 17:18:37"
+        }
+      },
+      {
+        "id": "ada8661a-7281-4081-83d4-3851258ce7c9",
+        "userWorkflowId": "f961a8f5-8923-451d-993e-d9316b624822",
+        "taskCollectionFieldId": "b825d14e-3645-4f97-87d1-98fcee69e4f6",
+        "createdAt": "2018-03-21 01:30:12",
+        "updatedAt": "2018-03-21 01:30:12",
+        "taskCollectionField": {
+          "id": "b825d14e-3645-4f97-87d1-98fcee69e4f6",
+          "taskCollectionId": "58e626f7-4e95-4e96-a067-d19c06eb3306",
+          "fieldName": "name",
+          "fieldType": "string",
+          "isPrimaryKey": false,
+          "isRequired": false,
+          "isDefaultExtraction": true,
+          "createdAt": "2018-03-21 01:29:22",
+          "updatedAt": "2018-03-21 01:29:22"
+        }
+      },
+      {
+        "id": "cb996d9a-a8b8-442d-9e2e-010e5e65e3ff",
+        "userWorkflowId": "f961a8f5-8923-451d-993e-d9316b624822",
+        "taskCollectionFieldId": "8f8f9da2-0af4-461a-b604-476f7c6f3758",
+        "createdAt": "2018-03-21 01:30:12",
+        "updatedAt": "2018-03-21 01:30:12",
+        "taskCollectionField": {
+          "id": "8f8f9da2-0af4-461a-b604-476f7c6f3758",
+          "taskCollectionId": "58e626f7-4e95-4e96-a067-d19c06eb3306",
+          "fieldName": "photo_url",
+          "fieldType": "image",
+          "isPrimaryKey": false,
+          "isRequired": false,
+          "isDefaultExtraction": true,
+          "createdAt": "2018-03-21 01:29:39",
+          "updatedAt": "2018-03-21 01:29:39"
+        }
+      },
+      {
+        "id": "df30c15f-8525-4f41-9973-ac340284f709",
+        "userWorkflowId": "f961a8f5-8923-451d-993e-d9316b624822",
+        "taskCollectionFieldId": "d5f8bfea-72f2-4edf-9653-ef244529af07",
+        "createdAt": "2018-03-21 01:30:12",
+        "updatedAt": "2018-03-21 01:30:12",
+        "taskCollectionField": {
+          "id": "d5f8bfea-72f2-4edf-9653-ef244529af07",
+          "taskCollectionId": "58e626f7-4e95-4e96-a067-d19c06eb3306",
+          "fieldName": "../id",
+          "fieldType": "number",
+          "isPrimaryKey": true,
+          "isRequired": true,
+          "isDefaultExtraction": true,
+          "createdAt": "2018-03-21 01:28:51",
+          "updatedAt": "2018-03-21 01:34:26"
+        }
+      }
+    ],
+    "name": "My custom worker!"
+  }
+}
