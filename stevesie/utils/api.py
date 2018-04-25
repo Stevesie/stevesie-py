@@ -4,20 +4,17 @@ import json
 
 import requests
 
+from stevesie.config import API_TOKEN, BASE_HOST
 
-#BASE_URL = 'https://stevesie.com/api/v1/'
-BASE_URL = 'http://localhost:9000/api/v1/'
-TOKEN_ENV_KEY = 'STEVESIE__API_TOKEN'
 
-def __token():
-    return os.getenv(TOKEN_ENV_KEY)
+BASE_URL = BASE_HOST + '/api/v1/'
 
 def get(url, params=None):
     logging.info('Fetching {} {}'.format(url, params or ''))
     print('Fetching {} {}'.format(url, params or ''))
     response = requests.get(url,
         verify=False, # TODO - remove! seemingly related to openSSL shipped in macOS
-        headers={'Token': __token()},
+        headers={'Token': API_TOKEN},
         params=params)
 
     if response.status_code == requests.codes.unauthorized:
