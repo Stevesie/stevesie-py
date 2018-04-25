@@ -62,15 +62,18 @@ class RemoteResource(ABC):
         obj = self.parse_api_response(api_json)
         return self.hydrate(obj)
 
-    def to_json(self):
-        def inner_json(obj):
-            if isinstance(obj, list):
-                return [inner_json(o) for o in obj]
-            if isinstance(obj, RemoteResource):
-                return obj._asdict()
-            return obj
+    def to_json(self, obj=None):
+        if obj is None:
+            obj = self
 
-        return {key: inner_json(value) for key, value in self._asdict().items()}
+        def inner_json(inner_obj):
+            if isinstance(inner_obj, list):
+                return [self.to_json(o) for o in inner_obj]
+            if isinstance(inner_obj, RemoteResource):
+                return self.to_json(inner_obj)
+            return inner_obj
+
+        return {key: inner_json(value) for key, value in obj._asdict().items()}
 
     def save_to_local(self, local_filename):
 
