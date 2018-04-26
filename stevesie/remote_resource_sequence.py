@@ -1,7 +1,3 @@
-import json
-
-from abc import ABC, abstractmethod
-
 from stevesie.remote_resource import RemoteResource
 from stevesie.utils import api
 
@@ -34,36 +30,33 @@ class RemoteResourceSequence(RemoteResource):
             cls = self.collection_type
             self._items = [cls().hydrate(o, fetch_remote=fetch_remote) for o in obj]
             return self
-        else:
-            initial_hydration = super(RemoteResourceSequence, self).hydrate(obj)
 
-            offset = 0
-            while fetch_remote and self.collection_field and len(getattr(initial_hydration, self.collection_field)) < initial_hydration.total:
-                offset = offset + 10
+        initial_hydration = super(RemoteResourceSequence, self).hydrate(obj)
 
-                params = initial_hydration.resource_params
-                params['offset'] = offset
+        offset = 0
+        while fetch_remote and self.collection_field \
+            and len(getattr(initial_hydration, self.collection_field)) < initial_hydration.total:
+            offset = offset + 10
 
-                pagination_json = api.get(initial_hydration.resource_url, params)
-                pagination_obj = self.parse_api_response(pagination_json)
+            params = initial_hydration.resource_params
+            params['offset'] = offset
 
-                new_hydration = super(RemoteResourceSequence, self).hydrate(pagination_obj)
+            pagination_json = api.get(initial_hydration.resource_url, params)
+            pagination_obj = self.parse_api_response(pagination_json)
 
-                merged_collection = getattr(initial_hydration, self.collection_field) + getattr(new_hydration, self.collection_field)
-                merged_args = {}
-                merged_args[self.collection_field] = merged_collection
+            new_hydration = super(RemoteResourceSequence, self).hydrate(pagination_obj)
 
-                initial_hydration = initial_hydration._replace(**merged_args)
+            merged_collection = getattr(initial_hydration, self.collection_field) \
+                + getattr(new_hydration, self.collection_field)
 
-            return initial_hydration
+            merged_args = {}
+            merged_args[self.collection_field] = merged_collection
 
-    def load_from_file(self, local_filename):
-        with open(local_filename) as f:
-            obj = json.load(f)
-        return self.hydrate(obj, fetch_remote=False)
+            initial_hydration = initial_hydration._replace(**merged_args)
+
+        return initial_hydration
 
     def parse_api_response(self, api_json):
         if self.collection_type:
             return api_json['items']
-        else:
-            return super(RemoteResourceSequence, self).parse_api_response(api_json)
+        return super(RemoteResourceSequence, self).parse_api_response(api_json)

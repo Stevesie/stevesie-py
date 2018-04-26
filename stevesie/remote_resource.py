@@ -21,7 +21,7 @@ class RemoteResource(ABC):
     def set_hydrated(self):
         self._is_hydrated = True
 
-    def hydrate(self, obj):
+    def hydrate(self, obj, fetch_remote=True):
         hydrate_args = {}
         for field_name in self._fields:
             field_type = self._field_types[field_name]
@@ -32,7 +32,7 @@ class RemoteResource(ABC):
                 if field_type == datetime:
                     field_value = datetime.strptime(field_value, DATETIME_FORMAT)
                 elif issubclass(field_type, RemoteResource):
-                    field_value = field_type().hydrate(field_value)
+                    field_value = field_type().hydrate(field_value, fetch_remote=fetch_remote)
                 elif issubclass(field_type, Sequence) \
                     and issubclass(field_type.__class__, GenericMeta):
                     # TODO - serious debt, can't otherwise figure out the type of a typing.Sequence
@@ -52,7 +52,8 @@ class RemoteResource(ABC):
                     mod = getattr(stevesie, module_name)
                     cls = getattr(mod, class_name)
 
-                    field_value = [cls().hydrate(item) for item in field_value]
+                    field_value = [cls().hydrate(item, fetch_remote=fetch_remote) \
+                        for item in field_value]
 
             hydrate_args[field_name] = field_value
 
@@ -92,7 +93,6 @@ class RemoteResource(ABC):
         with open(local_filename, 'w') as file:
             json.dump(self.to_json(), file, default=serialize)
 
-    @abstractmethod
     def load_from_file(self, local_filename):
         with open(local_filename) as file:
             obj = json.load(file)
@@ -111,7 +111,6 @@ class RemoteResource(ABC):
         return self._is_hydrated
 
     @property
-    @abstractmethod
     def resource_path(self):
         pass
 
