@@ -5,7 +5,6 @@ from stevesie.remote_resource import RemoteResource
 
 class TaskCollectionResultTuple(NamedTuple):
     object: object
-    # TODO - rethink these:
     task_result_id: str
     collected_at: datetime
 

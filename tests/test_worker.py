@@ -8,13 +8,13 @@ from stevesie.worker import Worker
 
 def test_init():
     worker_id = uuid.uuid4()
-    worker = Worker(worker_id)
-    assert worker.id == worker_id
+    worker = Worker({'id': worker_id})
+    assert worker._id == worker_id
     assert not worker.is_hydrated
 
 def test_hydration(worker_json):
     worker_id = uuid.uuid4()
-    worker = Worker(worker_id)
+    worker = Worker({'id': worker_id})
 
     with requests_mock.mock() as mock:
         mock.get(worker.resource_url, json={'item': worker_json})

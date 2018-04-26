@@ -1,4 +1,3 @@
-from collections import namedtuple
 from typing import NamedTuple, Sequence
 from datetime import datetime
 

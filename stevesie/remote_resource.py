@@ -1,7 +1,6 @@
 import re
 import json
 
-from abc import ABC, abstractmethod
 from typing import Sequence, GenericMeta
 from datetime import datetime, date
 
@@ -12,11 +11,12 @@ from stevesie.utils import api
 
 DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-class RemoteResource(ABC):
+class RemoteResource(object):
 
-    def __init__(self):
+    def __init__(self, meta_vars=None):
+        self._id = meta_vars.get('id') if meta_vars else None
+        self._meta_vars = meta_vars
         self._is_hydrated = False
-        super(RemoteResource, self).__init__()
 
     def set_hydrated(self):
         self._is_hydrated = True
@@ -98,7 +98,6 @@ class RemoteResource(ABC):
             obj = json.load(file)
         return self.hydrate(obj)
 
-    @abstractmethod
     def parse_api_response(self, api_json):
         return api_json['item']
 
@@ -117,12 +116,3 @@ class RemoteResource(ABC):
     @property
     def resource_url(self):
         return api.BASE_URL + self.resource_path
-
-    def _fields(self):
-        pass
-
-    def _field_types(self):
-        pass
-
-    def _replace(self):
-        pass

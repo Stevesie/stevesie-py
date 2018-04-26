@@ -1,8 +1,5 @@
-from typing import NamedTuple, Sequence
-
 from stevesie.remote_resource_sequence import RemoteResourceSequence
 from stevesie.task_collection_result_set import TaskCollectionResultSet
-
 
 class WorkerCollectionResults(RemoteResourceSequence):
 

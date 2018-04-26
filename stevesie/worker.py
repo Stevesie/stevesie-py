@@ -17,20 +17,20 @@ WorkerFields.__new__.__defaults__ = (None,) * len(WorkerFields._fields)
 
 class Worker(WorkerFields, RemoteResource):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, meta_vars=None):
         self._worker_collection_results = None
-        super(Worker, self).__init__()
+        super(Worker, self).__init__(meta_vars)
 
     def fetch_results(self, task_collection_id=None):
         self._worker_collection_results = WorkerCollectionResults(
-            {'worker_id': self.id, 'task_collection_id': task_collection_id}).fetch()
+            {'worker_id': self._id, 'task_collection_id': task_collection_id}).fetch()
         return self._worker_collection_results
 
     def load_results(self, local_filepath):
         self._worker_collection_results = WorkerCollectionResults(
-            {'worker_id': self.id}).load_from_file(local_filepath)
+            {'worker_id': self._id}).load_from_file(local_filepath)
         return self._worker_collection_results
 
     @property
     def resource_path(self):
-        return 'workers/{}'.format(self.id)
+        return 'workers/{}'.format(self._id)
