@@ -1,6 +1,5 @@
 import pytest
 
-
 @pytest.fixture
 def worker(workflow_json, vault_entry_json, work_extraction_json):
     return {
