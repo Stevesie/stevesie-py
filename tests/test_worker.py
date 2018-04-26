@@ -2,22 +2,18 @@ import uuid
 import tempfile
 import json
 
-import requests_mock
-
 from stevesie.worker import Worker
 
+WORKER_ID = str(uuid.uuid4())
+
 def test_init():
-    worker_id = uuid.uuid4()
-    worker = Worker({'id': worker_id})
-    assert worker._id == worker_id
+    worker = Worker({'id': WORKER_ID})
+    assert worker._id == WORKER_ID
     assert not worker.is_hydrated
 
-def test_hydration(worker_json):
-    worker_id = uuid.uuid4()
-    worker = Worker({'id': worker_id})
-
-    with requests_mock.mock() as mock:
-        mock.get(worker.resource_url, json={'item': worker_json})
+def test_hydration(mock_api):
+    worker = Worker({'id': WORKER_ID})
+    with mock_api:
         worker = worker.fetch()
 
     assert worker.is_hydrated
@@ -30,3 +26,11 @@ def test_hydration(worker_json):
         assert loaded_json['workflow']['name'] == 'Newsfeed'
         assert loaded_json['workflow']['workflow_tasks'][0]['id'] == \
             '83ca4ba0-73a6-49e9-99c8-71a0097fccd8'
+
+def test_fetch_results(mock_api):
+    worker = Worker({'id': WORKER_ID})
+    with mock_api:
+        collection_results = worker.fetch_results()
+
+    assert not worker.is_hydrated
+    assert collection_results
