@@ -14,7 +14,7 @@ DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class RemoteResource(ABC):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self):
         self._is_hydrated = False
         super(RemoteResource, self).__init__()
 
@@ -27,18 +27,19 @@ class RemoteResource(ABC):
             field_type = self._field_types[field_name]
             api_field_name = inflection.camelize(field_name, uppercase_first_letter=False)
             field_value = obj.get(api_field_name, obj.get(field_name))
-            
+
             if field_value is not None:
                 if field_type == datetime:
                     field_value = datetime.strptime(field_value, DATETIME_FORMAT)
                 elif issubclass(field_type, RemoteResource):
                     field_value = field_type().hydrate(field_value)
-                elif issubclass(field_type, Sequence) and issubclass(field_type.__class__, GenericMeta):
+                elif issubclass(field_type, Sequence) \
+                    and issubclass(field_type.__class__, GenericMeta):
                     # TODO - serious debt, can't otherwise figure out the type of a typing.Sequence
                     sequence_class_string = str(field_type)
-                    
-                    m = re.search(r'\[(.*)\]', sequence_class_string)
-                    module_parts = m.group(1).split('.')
+
+                    match = re.search(r'\[(.*)\]', sequence_class_string)
+                    module_parts = match.group(1).split('.')
 
                     if len(module_parts) == 1: # referring to self using string type hack
                         class_name_match = re.search(r'\(\'(.*)\'\)', module_parts[0])
@@ -47,7 +48,7 @@ class RemoteResource(ABC):
                     else:
                         module_name = module_parts[1]
                         class_name = module_parts[2]
-                    
+
                     mod = getattr(stevesie, module_name)
                     cls = getattr(mod, class_name)
 
@@ -78,7 +79,7 @@ class RemoteResource(ABC):
         if hasattr(obj, 'collection_type') and obj.collection_type is not None:
             # little hack for implicit remote resource collection
             return [inner_json(value) for value in obj.items]
-        
+
         return {key: inner_json(value) for key, value in obj._asdict().items()}
 
     def save_to_file(self, local_filename):
@@ -86,14 +87,15 @@ class RemoteResource(ABC):
         def serialize(obj):
             if isinstance(obj, (datetime, date)):
                 return obj.strftime(DATETIME_FORMAT)
+            raise TypeError('Cannot serialize %s' % type(obj))
 
-        with open(local_filename, 'w') as f:
-            json.dump(self.to_json(), f, default=serialize)
+        with open(local_filename, 'w') as file:
+            json.dump(self.to_json(), file, default=serialize)
 
     @abstractmethod
     def load_from_file(self, local_filename):
-        with open(local_filename) as f:
-            obj = json.load(f)
+        with open(local_filename) as file:
+            obj = json.load(file)
         return self.hydrate(obj)
 
     @abstractmethod
@@ -116,3 +118,12 @@ class RemoteResource(ABC):
     @property
     def resource_url(self):
         return api.BASE_URL + self.resource_path
+
+    def _fields(self):
+        pass
+
+    def _field_types(self):
+        pass
+
+    def _replace(self):
+        pass
