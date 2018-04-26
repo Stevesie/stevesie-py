@@ -1,5 +1,4 @@
-from collections import namedtuple
-from typing import NamedTuple, Sequence
+from typing import NamedTuple
 from datetime import datetime
 
 from stevesie.remote_resource import RemoteResource
@@ -11,12 +10,8 @@ class WorkerFields(NamedTuple):
     id: str
     name: str
     created_at: datetime
-    # user: RemoteResource
     task: Task
     workflow: Workflow
-    # vault_entries: RemoteResource
-    # work_schedules: RemoteResource
-    # work_extractions: RemoteResource
 
 WorkerFields.__new__.__defaults__ = (None,) * len(WorkerFields._fields)
 
@@ -24,14 +19,16 @@ class Worker(WorkerFields, RemoteResource):
 
     def __init__(self, *args, **kwargs):
         self._worker_collection_results = None
-        super(Worker, self).__init__(*args, **kwargs)
+        super(Worker, self).__init__()
 
     def fetch_results(self, task_collection_id=None):
-        self._worker_collection_results = WorkerCollectionResults({'worker_id': self.id, 'task_collection_id': task_collection_id}).fetch()
+        self._worker_collection_results = WorkerCollectionResults(
+            {'worker_id': self.id, 'task_collection_id': task_collection_id}).fetch()
         return self._worker_collection_results
 
     def load_results(self, local_filepath):
-        self._worker_collection_results = WorkerCollectionResults({'worker_id': self.id}).load_from_file(local_filepath)
+        self._worker_collection_results = WorkerCollectionResults(
+            {'worker_id': self.id}).load_from_file(local_filepath)
         return self._worker_collection_results
 
     @property
