@@ -12,7 +12,8 @@ from tests.mock_api.task import task as task_json
 from tests.mock_api.workflow_maintainer import workflow_maintainer as workflow_maintainer_json
 from tests.mock_api.workflow_task import workflow_task as workflow_task_json
 from tests.mock_api.workflow_parameter import workflow_parameter as workflow_parameter_json
-from tests.mock_api.workflow_task_dependency import workflow_task_dependency as workflow_task_dependency_json
+from tests.mock_api.workflow_task_dependency import workflow_task_dependency \
+    as workflow_task_dependency_json
 
 from tests.mock_api.workflow import workflow as workflow_json
 
