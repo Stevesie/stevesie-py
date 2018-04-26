@@ -2,11 +2,10 @@ import re
 import json
 
 from abc import ABC, abstractmethod
-
 from typing import Sequence, GenericMeta
+from datetime import datetime, date
 
 import inflection
-from datetime import datetime, date
 
 import stevesie
 from stevesie.utils import api
@@ -18,6 +17,9 @@ class RemoteResource(ABC):
     def __init__(self, *args, **kwargs):
         self._is_hydrated = False
         super(RemoteResource, self).__init__()
+
+    def set_hydrated(self):
+        self._is_hydrated = True
 
     def hydrate(self, obj):
         hydrate_args = {}
@@ -35,11 +37,11 @@ class RemoteResource(ABC):
                     # TODO - serious debt, can't otherwise figure out the type of a typing.Sequence
                     sequence_class_string = str(field_type)
                     
-                    m = re.search('\[(.*)\]', sequence_class_string)
+                    m = re.search(r'\[(.*)\]', sequence_class_string)
                     module_parts = m.group(1).split('.')
 
                     if len(module_parts) == 1: # referring to self using string type hack
-                        class_name_match = re.search('\(\'(.*)\'\)', module_parts[0])
+                        class_name_match = re.search(r'\(\'(.*)\'\)', module_parts[0])
                         class_name = class_name_match.group(1)
                         module_name = inflection.underscore(class_name)
                     else:
@@ -54,7 +56,7 @@ class RemoteResource(ABC):
             hydrate_args[field_name] = field_value
 
         hydrated = self._replace(**hydrate_args)
-        hydrated._is_hydrated = True
+        hydrated.set_hydrated()
         return hydrated
 
     def fetch(self):
@@ -76,8 +78,8 @@ class RemoteResource(ABC):
         if hasattr(obj, 'collection_type') and obj.collection_type is not None:
             # little hack for implicit remote resource collection
             return [inner_json(value) for value in obj.items]
-        else:
-            return {key: inner_json(value) for key, value in obj._asdict().items()}
+        
+        return {key: inner_json(value) for key, value in obj._asdict().items()}
 
     def save_to_file(self, local_filename):
 
@@ -88,11 +90,13 @@ class RemoteResource(ABC):
         with open(local_filename, 'w') as f:
             json.dump(self.to_json(), f, default=serialize)
 
+    @abstractmethod
     def load_from_file(self, local_filename):
         with open(local_filename) as f:
             obj = json.load(f)
-        return self.hydrate(obj, fetch_remote=False)
+        return self.hydrate(obj)
 
+    @abstractmethod
     def parse_api_response(self, api_json):
         return api_json['item']
 

@@ -55,6 +55,11 @@ class RemoteResourceSequence(RemoteResource):
 
             return initial_hydration
 
+    def load_from_file(self, local_filename):
+        with open(local_filename) as f:
+            obj = json.load(f)
+        return self.hydrate(obj, fetch_remote=False)
+
     def parse_api_response(self, api_json):
         if self.collection_type:
             return api_json['items']
