@@ -8,6 +8,9 @@ import requests_mock
 
 from stevesie.worker import Worker
 
+# from tests.mock_api.worker import worker as worker_json
+
+
 def test_init():
     worker_id = uuid.uuid4()
     worker = Worker(worker_id)
@@ -19,7 +22,7 @@ def test_hydration(worker_json):
     worker = Worker(worker_id)
 
     with requests_mock.mock() as m:
-        m.get(worker.resource_url, text=worker_json)
+        m.get(worker.resource_url, json={'item': worker_json})
         worker = worker.fetch()
     
     assert worker.is_hydrated == True

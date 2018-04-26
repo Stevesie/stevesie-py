@@ -1,8 +1,4 @@
-import os
-import pytest
-
-@pytest.fixture
-def worker_json():
-    json_response_filename = os.path.join(os.path.dirname(__file__), 'mock_api_resources/worker.json')
-    with open(json_response_filename) as f:
-        return f.read()
+from tests.mock_api.task_header import task_header as task_header_json
+from tests.mock_api.task import task as task_json
+from tests.mock_api.workflow import workflow as workflow_json
+from tests.mock_api.worker import worker as worker_json
