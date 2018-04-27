@@ -30,7 +30,7 @@ class Worker(WorkerFields, RemoteResource):
         resp_json, status_code = api.post(self.resource_url + '/executions', params)
         if status_code == 400:
             if resp_json['errors'].get('proxy'):
-                logging.warn('Please launch a proxy to run your worker.')
+                logging.info('Please launch a proxy to run your worker.')
             return False
         return True
 

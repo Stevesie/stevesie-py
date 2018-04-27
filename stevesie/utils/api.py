@@ -27,8 +27,11 @@ def post(url, params=None):
         url,
         verify=False, # TODO - remove! seemingly related to openSSL shipped in macOS
         headers={'Token': API_TOKEN},
-        data=params)
+        json=params)
 
     if response.status_code == 401:
         raise Exception('Access Denied - Check your token or the resource URL')
+
+    print(url)
+    print(response.text)
     return response.json(), response.status_code

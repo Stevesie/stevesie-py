@@ -39,5 +39,5 @@ def test_run_worker(mock_api):
     worker = Worker({'id': WORKER_ID})
     with mock_api:
         run_result = worker.run()
-    
+
     assert run_result
