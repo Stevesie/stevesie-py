@@ -51,5 +51,9 @@ def mock_api(worker_json, worker_collection_result_json):
         re.compile('/api/v1/workers/' + UUID_REGEX + \
             '/collection-results\?taskCollectionId=' + UUID_REGEX + '&offset=\d+'),
         json={'item': worker_collection_result_json})
+    mock.post(
+        re.compile('/api/v1/workers/' + UUID_REGEX + \
+            '/executions'),
+        json={})
 
     return mock

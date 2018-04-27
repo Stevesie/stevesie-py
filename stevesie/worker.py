@@ -1,5 +1,9 @@
+import logging
+
 from typing import NamedTuple
 from datetime import datetime
+
+from stevesie.utils import api
 
 from stevesie.remote_resource import RemoteResource
 from stevesie.task import Task
@@ -20,6 +24,15 @@ class Worker(WorkerFields, RemoteResource):
     def __init__(self, meta_vars=None):
         self._worker_collection_results = None
         super(Worker, self).__init__(meta_vars)
+
+    def run(self, params=None):
+        params = params or {}
+        resp_json, status_code = api.post(self.resource_url + '/executions', params)
+        if status_code == 400:
+            if resp_json['errors'].get('proxy'):
+                logging.warn('Please launch a proxy to run your worker.')
+            return False
+        return True
 
     def fetch_results(self, task_collection_id=None):
         self._worker_collection_results = WorkerCollectionResults(

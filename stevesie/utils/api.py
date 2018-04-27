@@ -21,3 +21,14 @@ def get(url, params=None):
     if response.status_code == 401:
         raise Exception('Access Denied - Check your token or the resource URL')
     return response.json()
+
+def post(url, params=None):
+    response = requests.post(
+        url,
+        verify=False, # TODO - remove! seemingly related to openSSL shipped in macOS
+        headers={'Token': API_TOKEN},
+        data=params)
+
+    if response.status_code == 401:
+        raise Exception('Access Denied - Check your token or the resource URL')
+    return response.json(), response.status_code

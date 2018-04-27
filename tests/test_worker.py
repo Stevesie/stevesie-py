@@ -34,3 +34,10 @@ def test_fetch_results(mock_api):
 
     assert not worker.is_hydrated
     assert collection_results
+
+def test_run_worker(mock_api):
+    worker = Worker({'id': WORKER_ID})
+    with mock_api:
+        run_result = worker.run()
+    
+    assert run_result
