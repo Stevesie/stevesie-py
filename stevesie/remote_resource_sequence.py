@@ -7,7 +7,6 @@ class RemoteResourceSequence(RemoteResource):
         self._items = None
         super(RemoteResourceSequence, self).__init__(*args, **kwargs)
 
-    @property
     def items(self):
         return self._items
 

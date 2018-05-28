@@ -79,7 +79,7 @@ class RemoteResource(object):
 
         if hasattr(obj, 'collection_type') and obj.collection_type is not None:
             # little hack for implicit remote resource collection
-            return [inner_json(value) for value in obj.items]
+            return [inner_json(value) for value in obj.items()]
 
         return {key: inner_json(value) for key, value in obj._asdict().items()}
 

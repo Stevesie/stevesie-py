@@ -3,7 +3,7 @@ import sys
 
 import requests
 
-from stevesie.config import API_TOKEN, BASE_HOST
+from stevesie.config import CONFIG, API_TOKEN, BASE_HOST
 
 BASE_URL = BASE_HOST + '/api/v1/'
 
@@ -14,7 +14,7 @@ def get(url, params=None):
     logging.info('Fetching %s %s', url, params_log)
     response = requests.get(
         url,
-        verify=False, # TODO - remove! seemingly related to openSSL shipped in macOS
+        verify=CONFIG['core'].get('verify_ssl', True),
         headers={'Token': API_TOKEN},
         params=params)
 
@@ -25,7 +25,7 @@ def get(url, params=None):
 def post(url, params=None):
     response = requests.post(
         url,
-        verify=False, # TODO - remove! seemingly related to openSSL shipped in macOS
+        verify=CONFIG['core'].get('verify_ssl', True),
         headers={'Token': API_TOKEN},
         json=params)
 

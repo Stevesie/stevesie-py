@@ -8,7 +8,7 @@ class WorkerCollectionResults(RemoteResourceSequence):
         super(WorkerCollectionResults, self).__init__()
 
     def for_task_collection_id(self, task_collection_id):
-        return [r for r in self.items if r.task_collection_id == task_collection_id][0]
+        return [r for r in self.items() if r.task_collection_id == task_collection_id][0]
 
     @property
     def collection_type(self):
