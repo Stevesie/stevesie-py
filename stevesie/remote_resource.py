@@ -1,3 +1,4 @@
+import os
 import re
 import json
 
@@ -90,11 +91,11 @@ class RemoteResource(object):
                 return obj.strftime(DATETIME_FORMAT)
             raise TypeError('Cannot serialize %s' % type(obj))
 
-        with open(local_filename, 'w') as file:
+        with open(os.path.expanduser(local_filename), 'w') as file:
             json.dump(self.to_json(), file, default=serialize)
 
     def load_from_file(self, local_filename):
-        with open(local_filename) as file:
+        with open(os.path.expanduser(local_filename)) as file:
             obj = json.load(file)
         return self.hydrate(obj)
 
