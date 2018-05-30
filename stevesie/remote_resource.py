@@ -14,10 +14,7 @@ DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class RemoteResource(object):
 
-    def __init__(self, meta_vars=None):
-        self._id = meta_vars.get('id') if meta_vars else None
-        self._meta_vars = meta_vars
-        self._is_hydrated = False
+    _is_hydrated = False
 
     def set_hydrated(self):
         self._is_hydrated = True

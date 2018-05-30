@@ -7,12 +7,12 @@ from stevesie.worker import Worker
 WORKER_ID = str(uuid.uuid4())
 
 def test_init():
-    worker = Worker({'id': WORKER_ID})
-    assert worker._id == WORKER_ID
+    worker = Worker(WORKER_ID)
+    assert worker.id == WORKER_ID
     assert not worker.is_hydrated
 
 def test_hydration(mock_api):
-    worker = Worker({'id': WORKER_ID})
+    worker = Worker(WORKER_ID)
     with mock_api:
         worker = worker.fetch()
 
@@ -28,7 +28,7 @@ def test_hydration(mock_api):
             '83ca4ba0-73a6-49e9-99c8-71a0097fccd8'
 
 def test_fetch_results(mock_api):
-    worker = Worker({'id': WORKER_ID})
+    worker = Worker(WORKER_ID)
     with mock_api:
         collection_results = worker.fetch_results()
 
@@ -36,8 +36,8 @@ def test_fetch_results(mock_api):
     assert collection_results
 
 def test_run_worker(mock_api):
-    worker = Worker({'id': WORKER_ID})
+    worker = Worker(WORKER_ID)
     with mock_api:
-        run_result = worker.run()
+        run_result = worker.fetch().run()
 
     assert run_result

@@ -21,12 +21,19 @@ WorkerFields.__new__.__defaults__ = (None,) * len(WorkerFields._fields)
 
 class Worker(WorkerFields, RemoteResource):
 
-    def __init__(self, meta_vars=None):
-        self._worker_collection_results = None
-        super(Worker, self).__init__(meta_vars)
+    def get_run_params(self):
+        if self.task:
+            return self.task.task_dependencies
+        else:
+            return self.workflow.workflow_parameters
 
     def run(self, params=None):
         params = params or {}
+
+        run_params = self.get_run_params()
+        for run_param in run_params:
+            print(run_param)
+
         resp_json, status_code = api.post(self.resource_url + '/executions', params)
         if status_code == 400:
             if resp_json['errors'].get('proxy'):
@@ -34,16 +41,17 @@ class Worker(WorkerFields, RemoteResource):
             return False
         return True
 
-    def fetch_results(self, task_collection_id=None):
-        self._worker_collection_results = WorkerCollectionResults(
-            {'worker_id': self._id, 'task_collection_id': task_collection_id}).fetch()
-        return self._worker_collection_results
+    def build_worker_collection_results(self):
+        collection_results = WorkerCollectionResults()
+        collection_results.worker_id = self.id
+        return collection_results
+
+    def fetch_results(self):
+        return self.build_worker_collection_results().fetch()
 
     def load_results(self, local_filepath):
-        self._worker_collection_results = WorkerCollectionResults(
-            {'worker_id': self._id}).load_from_file(local_filepath)
-        return self._worker_collection_results
+        return self.build_worker_collection_results().load_from_file(local_filepath)
 
     @property
     def resource_path(self):
-        return 'workers/{}'.format(self._id)
+        return 'workers/{}'.format(self.id)

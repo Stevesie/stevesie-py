@@ -3,9 +3,15 @@ from stevesie.task_collection_result_set import TaskCollectionResultSet
 
 class WorkerCollectionResults(RemoteResourceSequence):
 
-    def __init__(self, meta_vars):
-        self._worker_id = meta_vars['worker_id']
-        super(WorkerCollectionResults, self).__init__()
+    _worker_id = None
+
+    @property
+    def worker_id(self):
+        return self._worker_id
+
+    @worker_id.setter
+    def worker_id(self, value):
+        self._worker_id = value
 
     def for_task_collection_id(self, task_collection_id):
         return [r for r in self.items() if r.task_collection_id == task_collection_id][0]
