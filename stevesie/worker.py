@@ -39,17 +39,17 @@ class Worker(WorkerFields, RemoteResource):
             return False
         return True
 
-    def build_worker_collection_results(self):
-        collection_results = WorkerCollectionResults()
-        collection_results.worker_id = self.id
-        return collection_results
-
     def fetch_results(self):
-        return self.build_worker_collection_results().fetch()
+        return self.__build_worker_collection_results().fetch()
 
     def load_results(self, local_filepath):
-        return self.build_worker_collection_results().load_from_file(local_filepath)
+        return self.__build_worker_collection_results().load_from_file(local_filepath)
 
     @property
     def resource_path(self):
         return 'workers/{}'.format(self.id)
+
+    def __build_worker_collection_results(self):
+        collection_results = WorkerCollectionResults()
+        collection_results.worker_id = self.id
+        return collection_results
