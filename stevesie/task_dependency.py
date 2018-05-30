@@ -8,6 +8,7 @@ class TaskDependencyTuple(NamedTuple):
     id: str
     variable_name: str
     name: str
+    sample_value: str
     created_at: datetime
 
 TaskDependencyTuple.__new__.__defaults__ = (None,) * len(TaskDependencyTuple._fields)

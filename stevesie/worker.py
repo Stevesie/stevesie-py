@@ -21,20 +21,18 @@ WorkerFields.__new__.__defaults__ = (None,) * len(WorkerFields._fields)
 
 class Worker(WorkerFields, RemoteResource):
 
-    def get_run_params(self):
+    def run_params(self):
         if self.task:
             return self.task.task_dependencies
         else:
             return self.workflow.workflow_parameters
 
+    def run_param_by_name(self, name):
+        return next(p for p in self.run_params() if p.name == name)
+
     def run(self, params=None):
         params = params or {}
-
-        run_params = self.get_run_params()
-        for run_param in run_params:
-            print(run_param)
-
-        resp_json, status_code = api.post(self.resource_url + '/executions', params)
+        resp_json, status_code = api.post(self.resource_url + '/executions', query=params)
         if status_code == 400:
             if resp_json['errors'].get('proxy'):
                 logging.info('Please launch a proxy to run your worker.')

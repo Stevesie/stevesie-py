@@ -1,5 +1,6 @@
 import logging
 import sys
+import json
 
 import requests
 
@@ -22,16 +23,20 @@ def get(url, params=None):
         raise Exception('Access Denied - Check your token or the resource URL')
     return response.json()
 
-def post(url, params=None):
+def post(url, params=None, query=None):
+    query_log = query or ''
+    logging.info('Posting %s %s', url, query_log)
     response = requests.post(
         url,
         verify=CONFIG['core'].get('verify_ssl', True),
         headers={'Token': API_TOKEN},
-        json=params)
+        json=params,
+        params=query)
 
     if response.status_code == 401:
         raise Exception('Access Denied - Check your token or the resource URL')
 
-    print(url)
-    print(response.text)
-    return response.json(), response.status_code
+    try:
+        return response.json(), response.status_code
+    except json.decoder.JSONDecodeError:
+        return response.text, response.status_code
