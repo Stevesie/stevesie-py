@@ -2,7 +2,7 @@ import uuid
 import tempfile
 import json
 
-from stevesie.worker import Worker
+from stevesie import Worker
 
 WORKER_ID = str(uuid.uuid4())
 

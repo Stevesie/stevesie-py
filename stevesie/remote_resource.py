@@ -7,7 +7,7 @@ from datetime import datetime, date
 
 import inflection
 
-import stevesie
+from stevesie import resources
 from stevesie.utils import api
 
 DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -44,10 +44,10 @@ class RemoteResource(object):
                         class_name = class_name_match.group(1)
                         module_name = inflection.underscore(class_name)
                     else:
-                        module_name = module_parts[1]
-                        class_name = module_parts[2]
+                        module_name = module_parts[2]
+                        class_name = module_parts[3]
 
-                    mod = getattr(stevesie, module_name)
+                    mod = getattr(resources, module_name)
                     cls = getattr(mod, class_name)
 
                     field_value = [cls().hydrate(item, fetch_remote=fetch_remote) \
