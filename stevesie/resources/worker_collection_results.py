@@ -22,4 +22,5 @@ class WorkerCollectionResults(RemoteResourceSequence):
 
     @property
     def resource_path(self):
+        assert self.worker_id
         return 'workers/{}/collection-results'.format(self._worker_id)

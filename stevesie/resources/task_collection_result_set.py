@@ -24,6 +24,7 @@ class TaskCollectionResultSet(TaskCollectionResultSetTuple, RemoteResourceSequen
 
     @property
     def resource_path(self):
+        assert self.worker_id
         return 'workers/{}/collection-results'.format(self.worker_id)
 
     @property

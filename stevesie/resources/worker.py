@@ -47,6 +47,7 @@ class Worker(WorkerFields, RemoteResource):
 
     @property
     def resource_path(self):
+        assert self.id
         return 'workers/{}'.format(self.id)
 
     def __build_worker_collection_results(self):

@@ -21,4 +21,5 @@ class Workflow(WorkflowFields, RemoteResource):
 
     @property
     def resource_path(self):
+        assert self.id
         return 'workflows/{}'.format(self.id)

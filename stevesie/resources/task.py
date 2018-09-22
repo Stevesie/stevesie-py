@@ -27,4 +27,5 @@ class Task(TaskFields, RemoteResource):
 
     @property
     def resource_path(self):
+        assert self.id
         return 'tasks/{}'.format(self.id)
