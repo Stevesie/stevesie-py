@@ -4,13 +4,14 @@ import json
 
 from typing import Sequence, GenericMeta
 from datetime import datetime, date
+import dateutil.parser
 
 import inflection
 
 from stevesie import resources
 from stevesie.utils import api
 
-DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%fZ'
 
 class RemoteResource(object):
 
@@ -28,7 +29,7 @@ class RemoteResource(object):
 
             if field_value is not None:
                 if field_type == datetime:
-                    field_value = datetime.strptime(field_value, DATETIME_FORMAT)
+                    field_value = dateutil.parser.parse(field_value)
                 elif issubclass(field_type, RemoteResource):
                     field_value = field_type().hydrate(field_value, fetch_remote=fetch_remote)
                 elif issubclass(field_type, Sequence) \
