@@ -65,6 +65,9 @@ class RemoteResource(object):
         obj = self.parse_api_response(api_json)
         return self.hydrate(obj)
 
+    def destroy(self):
+        api.delete(self.resource_url)
+
     def to_json(self, obj=None):
         if obj is None:
             obj = self

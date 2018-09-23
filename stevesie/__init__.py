@@ -1,3 +1,5 @@
+name = 'stevesie'
+
 from stevesie.resources.active_proxies import ActiveProxies
 from stevesie.resources.proxy import Proxy
 from stevesie.resources.task import Task

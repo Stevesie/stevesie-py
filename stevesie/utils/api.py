@@ -15,7 +15,6 @@ def get(url, params=None):
     logging.info('Fetching %s %s', url, params_log)
     response = requests.get(
         url,
-        verify=CONFIG['core'].get('verify_ssl', True),
         headers={'Token': API_TOKEN},
         params=params)
 
@@ -28,7 +27,6 @@ def post(url, params=None, query=None):
     logging.info('Posting %s %s', url, query_log)
     response = requests.post(
         url,
-        verify=CONFIG['core'].get('verify_ssl', True),
         headers={'Token': API_TOKEN},
         json=params,
         params=query)
@@ -40,3 +38,7 @@ def post(url, params=None, query=None):
         return response.json(), response.status_code
     except json.decoder.JSONDecodeError:
         return response.text, response.status_code
+
+def delete(url):
+    logging.info('Deleting %s', url)
+    requests.delete(url, headers={'Token': API_TOKEN})
