@@ -1,4 +1,6 @@
 .pytest_cache/
-
 *.pyc
 .DS_Store
+/build
+/dist
+/stevesie.egg-info
