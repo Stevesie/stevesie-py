@@ -31,9 +31,9 @@ class Worker(WorkerFields, RemoteResource):
     def run_param_by_name(self, name):
         return next(p for p in self.run_params() if p.name == name)
 
-    def run(self, inputs=None):
+    def run(self, inputs=None, saveResults=True):
         inputs = inputs or {}
-        resp_json, status_code = api.post(self.resource_url + '/runs', {'inputs': inputs})
+        resp_json, status_code = api.post(self.resource_url + '/runs', {'inputs': inputs, 'saveResults': saveResults})
         if status_code == 400:
             if resp_json['errors'].get('proxy'):
                 logging.info('Please launch a proxy to run your worker.')
