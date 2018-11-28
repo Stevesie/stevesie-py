@@ -19,7 +19,8 @@ setuptools.setup(
         'Operating System :: OS Independent'
     ],
     install_requires=[
-        'requests>=0.11.1,<3.0',
-        'inflection>=0.2.0,<1.0'
+        'inflection>=0.2.0,<1.0',
+        'python-dateutil>=2.0,<3.0',
+        'requests>=0.11.1,<3.0'
     ]
 )
