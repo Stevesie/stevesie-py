@@ -5,7 +5,7 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='stevesie',
-    version='0.0.2',
+    version='0.0.3', # Don't forget to update release.sh
     author='Stevesie, LLC',
     author_email='steve@stevesie.com',
     description='Stevesie Python Client.',
