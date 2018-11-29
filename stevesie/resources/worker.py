@@ -41,12 +41,7 @@ class Worker(WorkerFields, RemoteResource):
         return resp_json
 
     def fetch_results(self, num_retries=6):
-        attempt = self.__build_worker_collection_results().fetch()
-        if num_retries > 0 and len([1 for collection_result in attempt.to_json() if collection_result['total'] > 0]) == 0:
-            logging.info('No results found, retrying worker...')
-            time.sleep(5) # elastic may be indexing, give it time...
-            return self.fetch_results(num_retries - 1)
-        return attempt
+        return self.__build_worker_collection_results().fetch()
 
     def load_results(self, local_filepath):
         return self.__build_worker_collection_results().load_from_file(local_filepath)
