@@ -40,8 +40,8 @@ class Worker(WorkerFields, RemoteResource):
             return False
         return resp_json
 
-    def fetch_results(self, num_retries=6):
-        return self.__build_worker_collection_results().fetch()
+    def fetch_results(self, limit=None):
+        return self.__build_worker_collection_results().fetch(limit)
 
     def load_results(self, local_filepath):
         return self.__build_worker_collection_results().load_from_file(local_filepath)

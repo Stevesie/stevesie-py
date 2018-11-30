@@ -1,6 +1,8 @@
 from stevesie.remote_resource import RemoteResource
 from stevesie.utils import api
 
+PAGE_SIZE = 1000
+
 class RemoteResourceSequence(RemoteResource):
 
     def __init__(self, *args, **kwargs):
@@ -18,24 +20,25 @@ class RemoteResourceSequence(RemoteResource):
     def collection_field(self):
         return None
 
-    def fetch(self):
-        api_json = api.get(self.resource_url)
+    def fetch(self, limit=None):
+        page_limit = min(limit, PAGE_SIZE) if limit is not None else PAGE_SIZE
+        api_json = api.get(self.resource_url, {'limit': page_limit})
         obj = self.parse_api_response(api_json)
-        initial_hydration = self.hydrate(obj)
+        initial_hydration = self.hydrate(obj, limit=limit)
         return initial_hydration
 
-    def hydrate(self, obj, fetch_remote=True):
+    def hydrate(self, obj, fetch_remote=True, limit=None):
         if self.collection_type:
             cls = self.collection_type
-            self._items = [cls().hydrate(o, fetch_remote=fetch_remote) for o in obj]
+            self._items = [cls().hydrate(o, fetch_remote=fetch_remote, limit=limit) for o in obj]
             return self
 
         initial_hydration = super(RemoteResourceSequence, self).hydrate(obj)
+        item_limit = min(limit, initial_hydration.total) if limit is not None else initial_hydration.total
 
         offset = 0
-        while fetch_remote and self.collection_field \
-            and len(getattr(initial_hydration, self.collection_field)) < initial_hydration.total:
-            offset = offset + 10
+        while fetch_remote and self.collection_field and offset < item_limit - PAGE_SIZE:
+            offset = offset + PAGE_SIZE
 
             params = initial_hydration.resource_params
             params['offset'] = offset
