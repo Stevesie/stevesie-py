@@ -1,6 +1,6 @@
 [core]
 api_token = API_TOKEN
-base_host = https://stevesie.com
+base_url = https://stevesie.com
 
 [workers]
 worker_name = WORKER_ID

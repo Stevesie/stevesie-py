@@ -7,7 +7,12 @@ DEFAULT_HOST = 'https://stevesie.com'
 CONFIG = configparser.ConfigParser()
 CONFIG.read(os.path.expanduser(os.getenv(CONFIG_FILE_ENV_KEY, '~/stevesie.cfg')))
 
-core_config = CONFIG.get('core') if CONFIG.has_section('core') else {}
+api_token = None
+base_url = None
 
-API_TOKEN = os.getenv('STEVESIE_API_TOKEN') or core_config.get('api_token')
-BASE_HOST = os.getenv('STEVESIE_BASE_HOST') or core_config.get('base_host', DEFAULT_HOST)
+if CONFIG.has_section('core'):
+    api_token = CONFIG.get('core', 'api_token')
+    base_url = CONFIG.get('core', 'base_url')
+
+API_TOKEN = os.getenv('STEVESIE_API_TOKEN') or api_token
+BASE_URL = os.getenv('STEVESIE_BASE_URL') or base_url

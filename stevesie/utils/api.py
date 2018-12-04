@@ -4,9 +4,9 @@ import json
 
 import requests
 
-from stevesie.config import CONFIG, API_TOKEN, BASE_HOST
+from stevesie.config import CONFIG, API_TOKEN, BASE_URL
 
-BASE_URL = BASE_HOST + '/api/v1/'
+BASE_URL = BASE_URL + '/api/v1/'
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
