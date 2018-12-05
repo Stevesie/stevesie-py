@@ -13,4 +13,8 @@ class ProxyTuple(NamedTuple):
 ProxyTuple.__new__.__defaults__ = (None,) * len(ProxyTuple._fields)
 
 class Proxy(ProxyTuple, RemoteResource):
-    pass
+    
+    @property
+    def resource_path(self):
+        assert self.id
+        return 'proxies/{}'.format(self.id)
