@@ -6,7 +6,7 @@ import requests
 
 from stevesie.config import CONFIG, API_TOKEN, BASE_URL
 
-BASE_URL = BASE_URL + '/api/v1/'
+BASE_URL_PATH = BASE_URL + '/api/v1/'
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 

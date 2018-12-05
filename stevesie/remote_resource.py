@@ -117,4 +117,4 @@ class RemoteResource(object):
 
     @property
     def resource_url(self):
-        return api.BASE_URL + self.resource_path
+        return api.BASE_URL_PATH + self.resource_path

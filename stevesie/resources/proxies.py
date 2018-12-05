@@ -5,14 +5,14 @@ from stevesie.remote_resource_sequence import RemoteResourceSequence
 from stevesie.utils import api
 from stevesie.resources.proxy import Proxy
 
-class ActiveProxies(RemoteResourceSequence):
+class Proxies(RemoteResourceSequence):
 
     def launch(self, location='nyc3'):
         send_json = {
             'location': location,
             'blurImages': False
         }
-        resp_json, status_code = api.post(api.BASE_URL + 'proxies', send_json)
+        resp_json, status_code = api.post(api.BASE_URL_PATH + 'proxies', send_json)
         if status_code == 400:
             logging.info('Failed to launch proxy.')
             return False
