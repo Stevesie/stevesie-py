@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION='0.0.5' # Don't forget to update setup.py
+VERSION='0.0.6' # Don't forget to update setup.py
 
 python setup.py sdist bdist_wheel
 twine upload dist/*

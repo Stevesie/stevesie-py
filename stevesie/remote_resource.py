@@ -20,7 +20,7 @@ class RemoteResource(object):
     def set_hydrated(self):
         self._is_hydrated = True
 
-    def hydrate(self, obj, fetch_remote=True):
+    def hydrate(self, obj, fetch_remote=True, limit=None):
         hydrate_args = {}
         for field_name in self._fields:
             field_type = self._field_types[field_name]
