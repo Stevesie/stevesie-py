@@ -42,6 +42,7 @@ class RemoteResourceSequence(RemoteResource):
 
             params = initial_hydration.resource_params
             params['offset'] = offset
+            params['limit'] = PAGE_SIZE
 
             pagination_json = api.get(initial_hydration.resource_url, params)
             pagination_obj = self.parse_api_response(pagination_json)
